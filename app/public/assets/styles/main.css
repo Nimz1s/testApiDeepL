@@ -23,7 +23,6 @@ div {
 textarea {
     width: 40vw;        /* 🔥 адаптивна ширина */
     max-width: 600px;
-    min-width: 200px;
 
     height: 26vh;       /* 🔥 50% екрану */
     min-height: 140px;
