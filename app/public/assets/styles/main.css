@@ -33,7 +33,7 @@ textarea {
     max-width: 600px;
     min-width: 250px;
 
-    height: 50vh;       /* 🔥 50% екрану */
+    height: 30vh;       /* 🔥 50% екрану */
     min-height: 200px;
 
     border-radius: 12px;
