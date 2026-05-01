@@ -1,15 +1,23 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    padding-bottom: 60px; /* висота меню */
+}
+
 * {
     box-sizing: border-box;
 }
 
 .translatePlace {
     display: grid;
-    grid-auto-flow: column;
-    justify-content: center;
-    align-content: center;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
 
-    gap: 30px; /* 🔥 відстань між textarea */
-    padding: 5vh 5vw; /* 🔥 5–10% відступи */
+    padding: 2vh 5vw;
+    align-items: start;
 }
 
 /* обгортка */
@@ -43,17 +51,18 @@ textarea {
 }
 
 /* 📱 mobile адаптація */
-@media (max-width: 768px) {
+@media (max-width: 700px) {
     .translatePlace {
-        grid-auto-flow: row;
-        gap: 20px;
-        padding: 5vh 8vw;
+        grid-template-columns: 1fr;
     }
+}
 
-    textarea {
-        width: 90vw;
-        height: 35vh;
-    }
+
+.actions {
+    grid-column: 1 / -1; /* займає всю ширину grid */
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 
@@ -73,4 +82,6 @@ textarea {
 
     background: #222;
     border-top: 1px solid #444;
+
+    padding-bottom: env(safe-area-inset-bottom);
 }
