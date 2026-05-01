@@ -51,7 +51,7 @@ textarea {
 }
 
 /* 📱 mobile адаптація */
-@media (max-width: 700px) {
+@media (max-width: 500px) {
     .translatePlace {
         grid-template-columns: 1fr;
     }
