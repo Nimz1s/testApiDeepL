@@ -1,14 +1,6 @@
-body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-
-    padding-bottom: 60px; /* висота меню */
-}
-
-* {
-    box-sizing: border-box;
+html, body {
+    height: auto;
+    overflow-y: auto;
 }
 
 .translatePlace {
@@ -31,10 +23,10 @@ div {
 textarea {
     width: 40vw;        /* 🔥 адаптивна ширина */
     max-width: 600px;
-    min-width: 250px;
+    min-width: 200px;
 
-    height: 30vh;       /* 🔥 50% екрану */
-    min-height: 200px;
+    height: 26vh;       /* 🔥 50% екрану */
+    min-height: 140px;
 
     border-radius: 12px;
 
@@ -51,7 +43,7 @@ textarea {
 }
 
 /* 📱 mobile адаптація */
-@media (max-width: 500px) {
+@media (max-width: 400px) {
     .translatePlace {
         grid-template-columns: 1fr;
     }
