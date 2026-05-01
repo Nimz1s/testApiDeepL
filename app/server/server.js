@@ -13,7 +13,7 @@ app.post("/log", (req, res) => { //?апі ендпоінт \\ /log адреса
     console.log("Log from frontend: ", message);
 
     res.json({ok: tsrue}); //відправка відповіді в браузер
-});s
+});
 
 ///////////////////////////////
 const DEEPL_KEY = process.env.DEEPL_KEY; 
