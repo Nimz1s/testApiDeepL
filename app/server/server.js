@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express"); //дозволяє отримувати запити з браузера
 const path = require("path"); //для робіт з лінукс і віндовс(конвертує \ в /)
 
@@ -15,7 +16,7 @@ app.post("/log", (req, res) => { //?апі ендпоінт \\ /log адреса
 });s
 
 ///////////////////////////////
-const DEEPL_KEY = "d39b21a5-6b8a-4e5d-a44f-c03cbc05e900:fx"; // 🔑
+const DEEPL_KEY = process.env.DEEPL_KEY; 
 
 app.post("/translate", async (req, res) => {
     const { text, sourceLang, targetLang } = req.body;
