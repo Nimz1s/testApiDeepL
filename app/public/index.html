@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/styles/main.css">
+    <title>Document</title>
+</head>
+<body>
+    <section class="translatePlace">
+        <div>
+            <select id="sourceLang">
+                <option value="UK">Ukrainian</option>
+                <option value="PL">Polish</option>
+                <option value="EN-US">English (US)</option>
+            </select>
+            <textarea type="text" id="sourceText"></textarea>
+        </div>
+        <div>
+            <select id="targetLang">
+                <option value="PL">Polish</option>
+                <option value="EN-US">English (US)</option>
+                <option value="UK">Ukrainian</option>
+            </select>
+            <textarea type="text" id="translatedText"></textarea>
+        </div>
+    </section>
+    
+    <div>
+        <button id="btnTranslate">Translate</button>
+    </div>
+
+
+    <div class="bottom-menu">
+        <button>Home</button>
+        <button>Translate</button>
+        <button>History</button>
+        <button>Settings</button>
+    </div>
+    <script src="assets/scripts/anim.js"></script>
+</body>
+</html>
