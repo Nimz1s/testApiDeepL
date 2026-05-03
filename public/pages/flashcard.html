@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/styles/main.css">
+    <link rel="stylesheet" href="../assets/styles/flashcard.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1 style="text-align: center;">Flashcards decks</h1>
+
+    <section class="main-content">
+        <div>
+            <div class="newDeckDiv" >
+                <h2>Dont have cards decks</h2>
+                <button class="newDeckButton" id="addMenu"><p>add new deck</p></button>
+            </div>
+
+            <div id="decks"></div> 
+        </div>
+    </section>
+
+
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Modal window</h2> <br>
+            
+            <div>
+                <p>Name for new deck</p>
+                <input style="color: black;" type="text" id="newDeckText" placeholder="write a name">
+                <button id="sentNewDeck" class="modal-button" disabled>Створити</button>
+                <button id="closeModal" class="modal-button" onclick="closeModalWindow()">Закрити</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-menu">
+        <button><a href="/">translete</a></button>
+        <button><a href="/flashcard">flashcards</a></button>
+        <button>History</button>
+        <button>Settings</button>
+    </div>
+
+    <script src="../assets/scripts/flashcard.js"></script>
+</body>
+</html>
