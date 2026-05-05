@@ -7,8 +7,6 @@ const db = new sqlite3.Database('./database.db', (err) => {
     }
 });
 
-// створення бази
-const db = new Database('./database.db');
 
 console.log("Connected to SQLite");
 
