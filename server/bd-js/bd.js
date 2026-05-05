@@ -1,5 +1,11 @@
 // db.js
-const Database = require('better-sqlite3');
+const db = new sqlite3.Database('./database.db', (err) => {
+    if (err) {
+        console.error("DB error:", err.message);
+    } else {
+        console.log("Connected to SQLite");
+    }
+});
 
 // створення бази
 const db = new Database('./database.db');
