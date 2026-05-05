@@ -78,6 +78,9 @@ app.post("/addNewDeck", async (req, res) => {
 app.get('/getDecks', async (req, res) => {
     try {
         const decks = await db.getDecks();
+
+        console.log("DECKS:", decks);
+
         res.json(decks);
     } catch (err) {
         res.status(500).json({ error: err.message });

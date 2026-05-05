@@ -1,21 +1,17 @@
-// db.js
 const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 
-
-const db = new sqlite3.Database('./database.db', (err) => {
-    if (err) {
-        console.error("DB error:", err.message);
-    } else {
-        console.log("Connected to SQLite");
+const db = new sqlite3.Database(
+    path.join(__dirname, '../../database.db'),
+    (err) => {
+        if (err) console.error(err);
+        else console.log("Connected to SQLite");
     }
-});
+);
 
-
-console.log("Connected to SQLite");
-
-// ініціалізація таблиць
+// INIT
 function initDB() {
-    db.exec(`
+    db.run(`
         CREATE TABLE IF NOT EXISTS decks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT
@@ -23,30 +19,35 @@ function initDB() {
     `);
 }
 
-// додати deck
+// ADD
 function addDeck(name) {
-    const stmt = db.prepare(`INSERT INTO decks (name) VALUES (?)`);
-    const result = stmt.run(name);
-
-    return result.lastInsertRowid; // ID нового запису
+    return new Promise((resolve, reject) => {
+        db.run(
+            `INSERT INTO decks (name) VALUES (?)`,
+            [name],
+            function (err) {
+                if (err) return reject(err);
+                resolve(this.lastID);
+            }
+        );
+    });
 }
 
-// отримати всі decks
+// GET ALL (ВАЖЛИВО!)
 function getDecks() {
-    const stmt = db.prepare(`SELECT * FROM decks`);
-    return stmt.all();
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM decks`, [], (err, rows) => {
+
+            console.log("DB ROWS:", rows); // 👈 ТУТ МАЄ БУТИ МАСИВ
+
+            if (err) return reject(err);
+            resolve(rows);
+        });
+    });
 }
 
-// отримати по ID
-function getDeckById(id) {
-    const stmt = db.prepare(`SELECT * FROM decks WHERE id = ?`);
-    return stmt.get(id);
-}
-
-// експортуємо
 module.exports = {
     initDB,
     addDeck,
-    getDecks,
-    getDeckById
+    getDecks
 };
