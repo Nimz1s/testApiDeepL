@@ -32,6 +32,32 @@ btn.addEventListener("click", async () => {
     });
 
     const data = await res.json();
+    
+    addToDeckOrCreate();
 
     document.getElementById("translatedText").innerText = data.translated;
 });
+
+
+function addToDeckOrCreate(){
+    // const buttonAddToDeck = document.getElementById('modal-create-deck');
+    const AddToDeck = document.getElementById('elem-add-to-deck');
+    AddToDeck.classList.remove('hidden');
+    // const closeBtn = document.getElementById('closeModal');
+
+    console.log("test");
+
+    // btn.addEventListener('click', () => { // відкрити
+        
+    // });
+
+    // function closeModalWindow() { // закрити
+    //     modal.classList.add('hidden');
+    // }
+
+    // modal.addEventListener('click', (e) => { // закриття по кліку на фон
+    //     if (e.target === modal) {
+    //         modal.classList.add('hidden');
+    //     }
+    // });
+}

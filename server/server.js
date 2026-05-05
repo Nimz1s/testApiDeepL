@@ -4,24 +4,18 @@ const path = require("path"); //для робіт з лінукс і віндо�
 
 
 const app = express(); //створює сервер
-const routes = require('./routes/pages');
-
 app.use(express.json());  // перетворює JSON в JS обєкт
 app.use(express.static(path.join(__dirname, "../public"))); // ці файли будуть доступні для браузера
 
-// app.post("/link", (req, res) => { //?апі ендпоінт \\ /log адреса
-//     const { currentId } = req.body; // отримує дані з запиту
-
-//     console.log("Log from frontend: ", currentId);
-
-//     res.json({ok: true}); //відправка відповіді в браузер
-// });
+const db = require('./bd-js/bd'); // імпорт дб
 
 
-
-///////////////////////////////
-
+const routes = require('./routes/pages');
 app.use('/', routes); // підключаєш роутер
+
+
+// ініціалізація таблиці
+db.initDB();
 
 const DEEPL_KEY = process.env.DEEPL_KEY; 
 
@@ -65,16 +59,34 @@ app.post("/learningCardFromId", (req, res) => {
 
     console.log("btn ids ", btnId);
 
-    res.json({ok: true});
+    res.json({idFromBG: btnId});
 });
 
 
-app.post("/addNewDeck", (req, res) => {
-    const { newDeckName } = req.body;
+app.post("/addNewDeck", async (req, res) => {
+    try {
+        const { newDeckName } = req.body;
 
-    console.log("name ", newDeckName);
+        const name = await db.addDeck(newDeckName);
 
-    res.json({ok: true});
+        res.json({ ok: true, name });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/getDecks', async (req, res) => {
+    try {
+        const decks = await db.getDecks();
+        res.json(decks);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+app.get('/deck/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/pages/deck.html'));
 });
 
 

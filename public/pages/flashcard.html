@@ -21,25 +21,53 @@
         </div>
     </section>
 
+    <div>
 
-    <div id="modal" class="modal hidden">
-        <div class="modal-content">
-            <h2>Modal window</h2> <br>
-            
-            <div>
-                <p>Name for new deck</p>
-                <input style="color: black;" type="text" id="newDeckText" placeholder="write a name">
-                <button id="sentNewDeck" class="modal-button" disabled>Створити</button>
-                <button id="closeModal" class="modal-button" onclick="closeModalWindow()">Закрити</button>
+        <div id="modal-create-deck" class="modal hidden">
+            <div class="modal-content">
+                <h2>Modal window</h2> <br>
+                
+                <div>
+                    <p>Name for new deck</p>
+                    <input style="color: black;" type="text" id="newDeckText" placeholder="write a name">
+                    <button id="sentNewDeck" class="modal-button" disabled>Створити</button>
+                    <button id="closeModal" class="modal-button" onclick="closeModalWindow()">Закрити</button>
+                </div>
             </div>
         </div>
+
+        <div id="modal-deck-settings" class="modal hidden">
+            <div>
+                <button class="deck-settings">......</button>
+                <button class="deck-settings">Delete card deck</button>
+                <button id="close-modal-settings" class="deck-settings">Close</button>
+            </div>
+        </div>
+
+        <div id="modal-deck-info" class="modal hidden">
+            <div class="modal-content">
+                <span class="deck-name-button">
+                    <h2>Modal window</h2> 
+                    <button id="open-modal-settings">...</button>
+                </span>
+                
+                
+                
+                <div id="deck-info-window">
+                    <p>Назва: <span id="deck-name"></span></p>
+                </div>
+            </div>
+        </div>
+
     </div>
+    
+
 
     <div class="bottom-menu">
         <button><a href="/">translete</a></button>
         <button><a href="/flashcard">flashcards</a></button>
-        <button>History</button>
-        <button>Settings</button>
+        <!-- <button>History</button>
+        <button>Settings</button> -->
     </div>
 
     <script src="../assets/scripts/flashcard.js"></script>

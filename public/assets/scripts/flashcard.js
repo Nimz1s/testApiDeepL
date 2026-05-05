@@ -1,95 +1,136 @@
-let menuId = 1; // унікальний ID для кожного меню
-
-function updateUserDecks(nameForDeck){
-    const container = document.getElementById('decks');
-
-    const currentId = menuId++; // зберігаємо ID цього меню
-
-    // створюємо блок меню
-    const menu = document.createElement('div');
-    menu.classList.add('decksDiv')
-
-    // текст
-    // const title = document.createElement('p');
-    // title.textContent = `Меню ${currentId}`;
-
-    // кнопка всередині меню
-    const btn = document.createElement('button');
-    btn.textContent = `${nameForDeck} ${currentId}`;
-    btn.classList.add('deckButton')
-
-    // 🔥 головне — кожна кнопка має свій ID
-    btn.addEventListener('click', async() => {
-        const btnId = currentId;
-
-        const res = await fetch("/learningCardFromId", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                btnId
-            })
-        });
-
-        const data = await res.json();
-    }); 
-
-    // додаємо все в меню
-    // menu.appendChild(title);
-    menu.appendChild(btn);
-
-    // додаємо меню на сторінку
-    container.appendChild(menu);
-}
-// addMenu
-// document.getElementById('openModal').addEventListener('click', () => {
-    
-// });
-
-
-
-
-
-
-
-
-const modal = document.getElementById('modal');
-const openBtn = document.getElementById('addMenu');
-const closeBtn = document.getElementById('closeModal');
-
-// відкрити
-openBtn.addEventListener('click', () => {
-    modal.classList.remove('hidden');
+document.addEventListener('DOMContentLoaded', () => {
+    loadDecks();
 });
 
-// закрити
-function closeModalWindow() {
-    modal.classList.add('hidden');
+//////////////////////////
+// 🔥 ЗАВАНТАЖЕННЯ З БД
+//////////////////////////
+
+
+
+async function loadDecks() {
+    const res = await fetch('/getDecks');
+    const decks = await res.json();
+
+    renderDecks(decks);
 }
 
+function renderDecks(decks){
+    const container = document.getElementById('decks');
+    container.innerHTML = ""; // очистка
 
-// закриття по кліку на фон
-modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        modal.classList.add('hidden');
+    decks.forEach(deck => {
+        createDeckElement(deck);
+    });
+}
+
+//////////////////////////
+// 🔥 СТВОРЕННЯ 1 DECK
+//////////////////////////
+
+function createDeckElement(deck){
+    const container = document.getElementById('decks');
+
+    const menu = document.createElement('div');
+    menu.classList.add('decksDiv');
+
+    const btn = document.createElement('button');
+    btn.textContent = deck.name; // ✅ правильно
+    btn.classList.add('deckButton');
+    btn.id = `deckInfo-${deck.id}`; // ✅ ID з БД
+
+    btn.addEventListener('click', () => {
+        openModalInfo(deck); // 👈 передаємо весь об'єкт
+    });
+
+    menu.appendChild(btn);
+    container.appendChild(menu);
+}
+
+//////////////////////////
+// 🔥 МОДАЛКА ІНФО
+//////////////////////////
+
+function openModalInfo(deck){
+    const modal = document.getElementById('modal-deck-info');
+    modal.classList.remove('hidden');
+
+    // заповнюємо дані
+    const title = document.getElementById('deck-name');
+    title.textContent = deck.name;
+
+    const container = document.getElementById('deck-info-window');
+    container.innerHTML = "";
+
+    const info = document.createElement('p');
+    info.textContent = `Deck ID: ${deck.id}`;
+
+    const btn = document.createElement('button');
+    btn.textContent = "Open";
+    btn.classList.add('newDeckButton');
+
+    btn.addEventListener('click', () => {
+        window.location.href = `/deck/${deck.id}`;
+    });
+
+    container.appendChild(info);
+    container.appendChild(btn);
+}
+
+// закриття модалки
+document.getElementById('modal-deck-info').addEventListener('click', (e) => {
+    if (e.target.id === 'modal-deck-info') {
+        e.currentTarget.classList.add('hidden');
     }
 });
 
+//////////////////////////
+// 🔥 МОДАЛКА СТВОРЕННЯ
+//////////////////////////
+
+const modalCreate = document.getElementById('modal-create-deck');
+const openBtn = document.getElementById('addMenu');
+
+openBtn.addEventListener('click', () => {
+    modalCreate.classList.remove('hidden');
+});
+
+function closeModalWindow() {
+    modalCreate.classList.add('hidden');
+}
+
+modalCreate.addEventListener('click', (e) => {
+    if (e.target === modalCreate) {
+        modalCreate.classList.add('hidden');
+    }
+});
+
+
+
+//////////////////////
+const container = document.getElementById('modal-deck-settings');
+const btn = document.getElementById('open-modal-settings');
+const closeBtn = document.getElementById('close-modal-settings');
+btn.addEventListener('click', () => {
+        container.classList.remove('hidden');
+    });
+closeBtn.addEventListener('click', () => {
+        container.classList.add('hidden');
+    });
+//////////////////////
+
+//////////////////////////
+// 🔥 СТВОРЕННЯ DECK
+//////////////////////////
 
 const inputNewDeck = document.getElementById('newDeckText');
 const btnPostNewDeck = document.getElementById('sentNewDeck');
 
 inputNewDeck.addEventListener('input', () => {
-    if (inputNewDeck.value.trim().length > 0) {
-        btnPostNewDeck.disabled = false;
-    } else {
-        btnPostNewDeck.disabled = true;
-    }
+    btnPostNewDeck.disabled = inputNewDeck.value.trim().length === 0;
 });
 
-
-btnPostNewDeck.addEventListener('click', async() => {
+btnPostNewDeck.addEventListener('click', async () => {
 
     const newDeckName = inputNewDeck.value;
 
@@ -99,19 +140,16 @@ btnPostNewDeck.addEventListener('click', async() => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            newDeckName: newDeckName
+            newDeckName
         })
     });
 
     const data = await res.json();
 
-    console.log(data);
-
     if(data.ok === true){
         closeModalWindow();
-        updateUserDecks(newDeckName)
         inputNewDeck.value = "";
+
+        await loadDecks(); // 🔥 ВАЖЛИВО — перезавантаження з БД
     }
-
 });
-

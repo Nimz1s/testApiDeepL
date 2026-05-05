@@ -42,6 +42,7 @@ h2{
 
 /*modal window to create new deck*/
 .modal {
+    z-index: 1;
     position: fixed;
     top: 0;
     left: 0;
@@ -63,12 +64,46 @@ h2{
 
 .modal-content div{
     display: grid;
-    justify-content: center;
+    /* justify-content: center; */
     gap: 10px;
 }
 .modal-content p{
     text-align: center;
 }
+.deck-name-button{
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 0px 10px;
+}
+#deck-info-window{
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+}
+#modal-deck-settings{
+    z-index: 2;
+}
+#modal-deck-settings div{
+     width: 240px;
+    height: 120px;
+    background: rgb(89, 97, 97);
+    display: grid;
+}
+#modal-deck-settings button{
+    margin: 6px;
+}
+.deck-settings{
+    margin: 0 auto;
+    border: none;
+    border-radius: 10px;
+    background: #4caf50;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+
+}
+    
+    
 
 
 /* приховане */
