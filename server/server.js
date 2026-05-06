@@ -77,11 +77,27 @@ app.post("/addNewDeck", async (req, res) => {
 
 app.get('/getDecks', async (req, res) => {
     try {
-        const decks = await db.getDecks();
-
-        console.log("DECKS:", decks);
+        const decks = await db.getDecks();  
 
         res.json(decks);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/deleteDeck', async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        const result = await db.deleteDeck(id);
+
+        res.json({
+            success: result > 0,
+            deleted: result
+        });
+
+        console.log("Deletet rows: ", result, "ID(", id, ")");
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

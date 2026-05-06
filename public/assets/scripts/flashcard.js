@@ -52,12 +52,12 @@ function createDeckElement(deck){
 //////////////////////////
 
 function openModalInfo(deck){
+    currentDeck = deck;
+
     const modal = document.getElementById('modal-deck-info');
     modal.classList.remove('hidden');
 
-    // заповнюємо дані
-    const title = document.getElementById('deck-name');
-    title.textContent = deck.name;
+    document.getElementById('deck-name').textContent = deck.name;
 
     const container = document.getElementById('deck-info-window');
     container.innerHTML = "";
@@ -107,6 +107,8 @@ modalCreate.addEventListener('click', (e) => {
 
 
 
+
+
 //////////////////////
 const container = document.getElementById('modal-deck-settings');
 const btn = document.getElementById('open-modal-settings');
@@ -151,5 +153,42 @@ btnPostNewDeck.addEventListener('click', async () => {
         inputNewDeck.value = "";
 
         await loadDecks(); // 🔥 ВАЖЛИВО — перезавантаження з БД
+    }
+});
+
+
+
+////////////////////
+//delete deck by id
+////////////////////
+
+let currentDeck = null;
+let currentDeckElement = null;
+
+
+const delBtn = document.getElementById('delete-deck');
+
+delBtn.addEventListener("click", async () => {
+
+    if (!currentDeck) return;
+
+    const res = await fetch("/deleteDeck", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: currentDeck.id })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+        document.getElementById('modal-deck-info').classList.add('hidden');
+        document.getElementById('modal-deck-settings').classList.add('hidden');        
+
+        // просто перезавантажуємо список (найнадійніше)
+        await loadDecks();
+
+        console.log("Deleted:", data.deleted);
     }
 });
